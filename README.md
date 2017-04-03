@@ -1,7 +1,7 @@
-# GT-Artist
+# GT-Artist 
 
-Created by two growtopians
+Created by two growtopians.
 
-(HTML5, CSS, JavaScript)
+THIS PROGRAM IS FOR EDUCATION AND ENTERTAINMENT PURPOSES ONLY.
 
-
+HTML5, CSS, JavaScript.
