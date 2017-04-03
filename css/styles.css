@@ -1,3 +1,8 @@
 #startBtn {
 	display: block;
 }
+
+#myCanvas {
+	border: 1px solid #d3d3d3;
+	display: none;
+}
