@@ -21,13 +21,13 @@ window.addEventListener('load', function(ev) {
 			
 			imageData = ctx2.getImageData(x*32, y*32, 32, 32);
 			var data = imageData.data;
-			colors[i] = averageColor(data);
+			colors.push(averageColor(data));
 			
 			setTimeout(function(i)
 			{
 				document.body.style.background = 'rgb('+colors[i].r+','+colors[i].g+','+colors[i].b+')';
 				
-			},400*i, i);
+			},300*i, i);
 			
 			x++;
 		}
@@ -70,7 +70,11 @@ window.addEventListener('load', function(ev) {
 
 
 //-----listeners---
-	startBtn.addEventListener('click', function(){getColors(colors);});
+	startBtn.addEventListener('click', function()
+	{
+		startBtn.disabled = true;
+		getColors(colors);
+	});
 //-----listeners---
 	
 });
