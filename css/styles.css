@@ -1,9 +1,13 @@
 body {
-margin:0;
-background-color: #fafafa;
+	margin: 0;
+	font-family: sans-serif;
+	font-size: 16px;
+	background-color: rgba(0,0,0,0.05);
+	color: rgba(0,0,0,0.8);
 }
 
-ul {
+/*---AppBar---*/
+#barUl {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -16,11 +20,8 @@ ul {
     z-index: 2;
 }
 
-li {
-    float: left;
-}
-
-li a {
+#barUl li a {
+	float: left;
     display: block;
     color: white;
     text-align: center;
@@ -28,20 +29,50 @@ li a {
     text-decoration: none;
 }
 
-li a:hover:not(.active) {
+#barUl li a:hover {
     background-color: #2980b9 ;
 }
 
-.active {
-    background-color: #c0392b;
+#fileUpload {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+#fileUpload + label {
+	float: right;
+    display: block;
+    color: white;
+    padding: 14px 16px ;
+    cursor: pointer;
+}
+
+#fileUpload + label:hover {
+    background-color: #27ae60;
 }
 
 #startBtn {
-	display: block;
-	margin-top: 50px;
+	float:right;
+	border: none;
+    background-color: #c0392b;
+    color: white;
+    font-family: sans-serif;
+    font-size: 16px;    
+    padding: 14px 16px;
+    cursor: pointer;
 }
+/*---AppBar---*/
+
 
 #myCanvas {
 	border: 1px solid #d3d3d3;
 	display: none;
+}
+
+#div0 {
+	margin: 8px;
+	margin-top: 55px;
 }

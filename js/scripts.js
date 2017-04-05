@@ -78,21 +78,35 @@ window.addEventListener('load', function(ev) {
 
 //-----code--------
 	var items = [];
+	
+	var spriteIMG = new Image();
+	spriteIMG.src = '../res/ItemSprites.png';
 
 	var canvas = document.getElementById("myCanvas");
 	var ctx = canvas.getContext("2d");
 	
-	var startBtn = document.getElementById("startBtn");
+	var fileInput = document.getElementById("fileUpload");
+	var fileLabel = fileInput.nextElementSibling;
 	
-	var spriteIMG = new Image();
-	spriteIMG.src = '../res/ItemSprites.png';
-//-----code-------
+	var startBtn = document.getElementById("startBtn");
+//-----code--------
 
 
 //-----listeners---
+	fileInput.addEventListener( 'change', function(e)
+	{
+		var fileName = '';
+		
+		fileName = e.target.value.split( '\\' ).pop();
+
+		if(fileName)
+			fileLabel.innerHTML = fileName;
+	});
+
+
 	startBtn.addEventListener('click', function()
 	{
-		startBtn.disabled = true;
+		this.disabled = true;
 		getColors(items);
 	});
 //-----listeners---

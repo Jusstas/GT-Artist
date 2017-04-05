@@ -6,21 +6,19 @@
 		<title>GT-Artist</title>
 	</head>
 	<body>
-		<ul>
-  		<li><a href="#home">Home</a></li>
-	  	<li><a href="#news">News</a></li>
-	  	<li><a href="#contact">Contact</a></li>
-	  	<li style="float:right"><a class="active" href="#START">START</a></li>				
-	</ul>
 		
-		
-		<button id='startBtn'>Start</button>
+		<ul id='barUl'>
+			<li><a href="#home">Home</a></li>
+			<li><a href="#news">News</a></li>
+			<li><a href="#contact">Contact</a></li>
+			<li><button id='startBtn'>START</button></li>				
+			<li><input id ="fileUpload" type="file">
+				<label for="fileUpload">Choose a file</label></li>
+		</ul>
 		
 		<div id="div0" style="font-size:10px;"><div>
 	
-		<canvas id="myCanvas">
-			Your browser does not support the canvas element.
-		</canvas>
+		<canvas id="myCanvas">Your browser does not support the canvas element</canvas>
 
 	</body>
 </html>
