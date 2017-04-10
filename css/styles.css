@@ -1,78 +1,79 @@
 body {
-	margin: 0;
-	font-family: sans-serif;
-	font-size: 16px;
-	background-color: rgba(0,0,0,0.05);
-	color: rgba(0,0,0,0.8);
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 16px;
+  background-color: rgba(0,0,0,0.05);
+  color: rgba(0,0,0,0.8);
 }
 
 /*---AppBar---*/
 #barUl {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #2c3e50;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.16), 0px 3px 3px 0px rgba(0,0,0,0.20);  	
-    z-index: 2;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #2c3e50;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.16), 0px 3px 3px 0px rgba(0,0,0,0.20);
+  z-index: 2;
 }
 
 #barUl li a {
-	float: left;
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
 }
 
 #barUl li a:hover {
-    background-color: #2980b9 ;
+  background-color: #2980b9 ;
 }
 
 #fileUpload {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
 }
 
 #fileUpload + label {
-	float: right;
-    display: block;
-    color: white;
-    padding: 14px 16px ;
-    cursor: pointer;
+  float: right;
+  display: block;
+  color: white;
+  padding: 14px 16px ;
+  cursor: pointer;
 }
 
 #fileUpload + label:hover {
-    background-color: #27ae60;
+  background-color: #27ae60;
 }
 
 #startBtn {
-	float:right;
-	border: none;
-    background-color: #c0392b;
-    color: white;
-    font-family: sans-serif;
-    font-size: 16px;    
-    padding: 14px 16px;
-    cursor: pointer;
+  float:right;
+  border: none;
+  background-color: #c0392b;
+  color: white;
+  font-family: sans-serif;
+  font-size: 16px;
+  padding: 14px 16px;
+  cursor: pointer;
 }
 /*---AppBar---*/
 
 
 #myCanvas {
-	border: 1px solid #d3d3d3;
-	display: none;
+  border: 1px solid #d3d3d3;
+  display: none;
 }
 
 #div0 {
-	margin: 8px;
-	margin-top: 55px;
+  margin: 8px;
+  margin-top: 55px;
+  font-size: 10px;
 }
