@@ -72,8 +72,9 @@ body {
   display: none;
 }
 
-#div0 {
-  margin: 8px;
+#div {
+  margin-left: 8px;
+  margin-right: 8px;
   margin-top: 55px;
   font-size: 10px;
 }
