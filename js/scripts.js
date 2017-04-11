@@ -2,7 +2,8 @@ window.addEventListener('load', function(ev) {
 
 //-----code--------
 	var items = [];
-	
+	var imageFile = {'ready':false};
+
 	var canvas = document.getElementById("myCanvas");
 	var ctx = canvas.getContext("2d");
 	
@@ -11,9 +12,9 @@ window.addEventListener('load', function(ev) {
 	
 	var spriteIMG = new Image();
 	spriteIMG.onload = function() {
-		canvas2.width = spriteIMG.width;
-		canvas2.height = spriteIMG.height;
-		ctx2.drawImage(spriteIMG, 0, 0);
+		canvas2.width = this.width;
+		canvas2.height = this.height;
+		ctx2.drawImage(this, 0, 0);
 	};
 	spriteIMG.src = '../res/ItemSprites.png';
 	
@@ -25,21 +26,33 @@ window.addEventListener('load', function(ev) {
 
 
 //-----listeners---
-	fileInput.addEventListener('change', function()
+	fileInput.addEventListener('change', function(e)
 	{
-		var fileName = '';
+		var file = this.files[0];
 		
-		fileName = this.target.value.split('\\').pop();
-
-		if(fileName)
-			fileLabel.innerHTML = fileName;
+		if('name' in file)
+			fileLabel.innerHTML = file.name;
+			
+		if (file.type.match('image.*'))
+		{
+			imageFile.file = file;
+			imageFile.ready = true;
+		}
 	});
 
 
 	startBtn.addEventListener('click', function()
 	{
-		this.disabled = true;
-		getColors(items);
+		if (imageFile.ready)
+		{
+			this.disabled = true;
+			setTimeout(function() {
+				getColors(items);
+				drawArt(imageFile.file);
+			},0);
+		}
+		else
+			alert('Please select an image to proceed');
 	});
 //-----listeners---
 
@@ -48,7 +61,7 @@ window.addEventListener('load', function(ev) {
 	function getColors(items) {
 		
 		var div0 = document.getElementById("div0");
-		var dataString = ' ';
+		var dataString = '';
 		
 		var sx = spriteIMG.width / 32;
 		var sy = spriteIMG.height / 32;
@@ -68,8 +81,6 @@ window.addEventListener('load', function(ev) {
 				items.push(colorObj);
 				items[items.length-1].x = x;
 				items[items.length-1].y = y;
-				
-				dataString += items[items.length-1].r+','+items[items.length-1].g+','+items[items.length-1].b+' '+items[items.length-1].pix+' '+items[items.length-1].x+' '+items[items.length-1].y+'<br>';
 			}
 			
 			x++;
@@ -79,7 +90,6 @@ window.addEventListener('load', function(ev) {
 				y++;
 			}
 		}
-		div0.innerHTML = dataString;
 	}
 	
 	
@@ -90,8 +100,8 @@ window.addEventListener('load', function(ev) {
 		var b = 0;
 		var pix = 0;
 
-		for (var i = 0, l = data.length; i < l; i += 4) {
-			
+		for (var i = 0, l = data.length; i < l; i += 4)
+		{
 			if (data[i+3] > 0)
 			{
 				r += data[i];
@@ -108,22 +118,98 @@ window.addEventListener('load', function(ev) {
 
 		return { r: r, g: g, b: b, pix: pix };
 	}
+	
+	
+	function drawArt(file) {
+		
+		var imgData = {};
+		
+		var canvas3 = document.createElement('canvas');
+		var ctx3 = canvas3.getContext('2d');
+		
+		var image = new Image();
+		image.onload = function() {
+			
+			URL.revokeObjectURL(this.src);
+			
+			canvas3.width = this.width;
+			canvas3.height = this.height;
+			ctx3.drawImage(this, 0, 0, this.width, this.height);
+			
+			canvas.width = this.width*32;
+			canvas.height = this.height*32;
+			
+			imgData = ctx3.getImageData(0, 0, canvas3.width, canvas3.height);
+			startDrawing(imgData);
+		};
+		image.src = URL.createObjectURL(file);
+	}
+	
+	
+	function startDrawing(imgData)
+	{
+		var data = imgData.data;
+		
+		var x = 0;
+		var y = 0;
+		
+		var ix = 0;
+		var iy = 0;
+		var d = 0, minDif = 0;
+		
+		for (var i = 0, l = data.length; i < l; i += 4)
+		{
+			if(data[i+3] > 0)
+			{
+				c2 = [data[i], data[i+1], data[i+2]];
+				minDif = 442;
+			
+				for (var i2 = 0, l2 = items.length; i2 < l2; i2++)
+				{
+					if (i2 == 813)
+						continue;
+					
+					if (items[i2].pix < 900)
+						continue;
+				
+					c1 = [items[i2].r, items[i2].g, items[i2].b]; 
+				
+					d = pixelDif(c1, c2);
+				
+					if (d < minDif)
+					{
+						minDif = d;
+						ix = items[i2].x;
+						iy = items[i2].y;
+					}
+				}
+				ctx.drawImage(canvas2, ix*32, iy*32, 32, 32, x*32, y*32, 32, 32);
+			}
+			
+			x++;
+			if (x >= imgData.width)
+			{
+				x = 0;
+				y++;
+			}
+		}
+		canvas.style.display = 'block';
+		startBtn.disabled = false;
+	}
+	
+	
+	function pixelDif(c1, c2){
+		
+		var d = 0;
+		var r = (c1[0] + c2[0]) / 2;
+		var p = [2+r/256, 4, 2+(255-r)/256];
+		
+		for (var i = 0; i < 3; i++)
+		{
+			d += p[i] * Math.pow(c1[i] - c2[i], 2);
+		}
+        return Math.sqrt(d);
+    };
 //-----functions---
 	
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
