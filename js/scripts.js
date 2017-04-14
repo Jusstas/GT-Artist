@@ -1,10 +1,12 @@
-window.addEventListener('load', function(ev) {
+window.addEventListener('load', function() {
 
 //-----code--------
 	var items = [];
 	var imageFile = {'ready':false};
+	var scaned = false;
 
-	var canvas = document.getElementById("myCanvas");
+	var canvas = document.createElement('canvas');
+	canvas.style.border = '1px solid #d3d3d3';
 	var ctx = canvas.getContext("2d");
 	
 	var canvas2 = document.createElement('canvas');
@@ -26,7 +28,7 @@ window.addEventListener('load', function(ev) {
 
 
 //-----listeners---
-	fileInput.addEventListener('change', function(e)
+	fileInput.addEventListener('change', function()
 	{
 		var file = this.files[0];
 		
@@ -35,8 +37,23 @@ window.addEventListener('load', function(ev) {
 			
 		if (file.type.match('image.*'))
 		{
-			imageFile.file = file;
-			imageFile.ready = true;
+			if (file.size <= 8 * 1024)
+			{
+				imageFile.file = file;
+				imageFile.ready = true;
+			}
+			else
+			{
+				confirm('Image is too big, resize?');
+				imageFile.ready = false;
+				this.value = null;
+			}
+		}
+		else
+		{
+			alert('Please select an image to proceed');
+			imageFile.ready = false;
+			this.value = null;
 		}
 	});
 
@@ -46,22 +63,16 @@ window.addEventListener('load', function(ev) {
 		if (imageFile.ready)
 		{
 			this.disabled = true;
-			setTimeout(function() {
-				getColors(items);
-				drawArt(imageFile.file);
-			},0);
+			if (!scaned)
+				setTimeout(function() {getColors(items);},0);
+			setTimeout(function(){drawArt(imageFile.file);},0);
 		}
-		else
-			alert('Please select an image to proceed');
 	});
 //-----listeners---
 
 
 //-----functions---
 	function getColors(items) {
-		
-		var div0 = document.getElementById("div0");
-		var dataString = '';
 		
 		var sx = spriteIMG.width / 32;
 		var sy = spriteIMG.height / 32;
@@ -71,11 +82,14 @@ window.addEventListener('load', function(ev) {
 		var x = 0;
 		var y = 0;
 		
+		var data = {};
+		var colorObj = {};
+		
 		for (var i = 0; i < id; i++)
 		{
-			var data = ctx2.getImageData(x*32, y*32, 32, 32).data;
+			data = ctx2.getImageData(x*32, y*32, 32, 32).data;
 			
-			var colorObj = averageColor(data);
+			colorObj = averageColor(data);
 			if (colorObj.pix > 0)
 			{
 				items.push(colorObj);
@@ -90,6 +104,7 @@ window.addEventListener('load', function(ev) {
 				y++;
 			}
 		}
+		scaned = true;
 	}
 	
 	
@@ -156,6 +171,7 @@ window.addEventListener('load', function(ev) {
 		var ix = 0;
 		var iy = 0;
 		var d = 0, minDif = 0;
+		var c1 = [], c2 = [];
 		
 		for (var i = 0, l = data.length; i < l; i += 4)
 		{
@@ -193,7 +209,7 @@ window.addEventListener('load', function(ev) {
 				y++;
 			}
 		}
-		canvas.style.display = 'block';
+		document.getElementById("div").appendChild(canvas);
 		startBtn.disabled = false;
 	}
 	
@@ -209,7 +225,7 @@ window.addEventListener('load', function(ev) {
 			d += p[i] * Math.pow(c1[i] - c2[i], 2);
 		}
         return Math.sqrt(d);
-    };
+    }
 //-----functions---
 	
 });
