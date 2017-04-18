@@ -131,7 +131,7 @@ window.addEventListener('load', function() {
         g = Math.floor(g / pix);
         b = Math.floor(b / pix);
 
-        return { r: r, g: g, b: b, pix: pix };
+        return { color: [r, g, b], pix: pix };
     }
     
     
@@ -171,14 +171,18 @@ window.addEventListener('load', function() {
         var ix = 0;
         var iy = 0;
         var d = 0, minDif = 0;
-        var c1 = [], c2 = [];
+        var pixColor = [];
+        var lc1 = [], lc2 = [];
         
         for (var i = 0, l = data.length; i < l; i += 4)
         {
             if(data[i+3] > 0)
             {
-                c2 = [data[i], data[i+1], data[i+2]];
-                minDif = 442;
+                pixColor[i] = [data[i], data[i+1], data[i+2]];
+                if (lc2[i] === undefined)
+                    lc2[i] = rgb2lab(pixColor[i]);
+                    
+                minDif = 900;
             
                 for (var i2 = 0, l2 = items.length; i2 < l2; i2++)
                 {
@@ -188,9 +192,11 @@ window.addEventListener('load', function() {
                     if (items[i2].pix < 900)
                         continue;
                 
-                    c1 = [items[i2].r, items[i2].g, items[i2].b];
+                    if (lc1[i2] === undefined)
+                        lc1[i2] = rgb2lab(items[i2].color);
                 
-                    d = pixelDif(c1, c2);
+                    //d = colorDif(items[i2].color, pixColor[i]);
+                    d = labColorDif(lc1[i2], lc2[i]);
                 
                     if (d < minDif)
                     {
@@ -210,21 +216,77 @@ window.addEventListener('load', function() {
             }
         }
         document.getElementById("div").appendChild(canvas);
-        startBtn.disabled = false;
+        startBtn.disabled = false; 
     }
     
     
-    function pixelDif(c1, c2) {
+    function colorDif(c1, c2) {
         
         var d = 0;
-        var r = (c1[0] + c2[0]) / 2;
-        var p = [2+r/256, 4, 2+(255-r)/256];
+        var r = (c1[0] + c2[0]) / 2.0;
+        var p = [2+r/256.0, 4, 2+(255-r)/256.0];
         
         for (var i = 0; i < 3; i++)
         {
             d += p[i] * Math.pow(c1[i] - c2[i], 2);
         }
         return Math.sqrt(d);
+    }
+    
+    
+    function labColorDif(c1, c2) {
+        
+        var d = 0;
+        
+        for (var i = 0; i < 3; i++)
+        {
+            d += Math.pow(c1[i] - c2[i], 2);
+        }
+        return Math.sqrt(d);
+    }
+    
+    
+    function rgb2lab(c) {
+        
+        //RGB to XYZ
+        var vC = [], XYZ = [];
+        
+        for (var i = 0; i < 3; i++)
+        {
+            vC[i] = ( c[i] / 255.0 );
+
+            if (vC[i] > 0.04045)
+                vC[i] = Math.pow(((vC[i] + 0.055) / 1.055), 2.4);
+            else 
+                vC[i] = vC[i] / 12.92;
+
+            vC[i] = vC[i] * 100;
+        }
+        
+        XYZ[0] = vC[0] * 0.4124 + vC[1] * 0.3576 + vC[2] * 0.1805;
+        XYZ[1] = vC[0] * 0.2126 + vC[1] * 0.7152 + vC[2] * 0.0722;
+        XYZ[2] = vC[0] * 0.0193 + vC[1] * 0.1192 + vC[2] * 0.9505;
+        
+        //XYZ to CIA-L*ab
+        var L, a, b;
+        
+        XYZ[0] = XYZ[0] / 95.047;
+        XYZ[1] = XYZ[1] / 100.0;
+        XYZ[2] = XYZ[2] / 108.883;
+
+        for (var i = 0; i < 3; i++)
+        {
+            if (XYZ[i] > 0.008856)
+                XYZ[i] = Math.pow(XYZ[i], (1.0/3));
+            else
+                XYZ[i] = (7.787 * XYZ[i]) + (16.0 / 116);
+        }
+
+        L = (116 * XYZ[1]) - 16;
+        a = 500 * (XYZ[0] - XYZ[1]);
+        b = 200 * (XYZ[1] - XYZ[2]);
+        
+        return [L, a, b];
     }
 //-----functions---
     
