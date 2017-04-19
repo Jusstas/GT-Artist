@@ -44,14 +44,14 @@ window.addEventListener('load', function() {
             }
             else
             {
-                confirm('Image is too big, resize?');
+                setTimeout("confirm('Image is too big, resize?')", 350);
                 imageFile.ready = false;
                 this.value = null;
             }
         }
         else
         {
-            alert('Please select an image to proceed');
+            setTimeout("alert('Please select an image to proceed')", 350);
             imageFile.ready = false;
             this.value = null;
         }
@@ -67,6 +67,11 @@ window.addEventListener('load', function() {
                 setTimeout(function() {getColors(items);},0);
             setTimeout(function(){drawArt(imageFile.file);},0);
         }
+    });
+    
+    $('a[href*=\\#]').on('click', function(e){     
+        e.preventDefault();
+        $('html,body').animate({scrollTop:$(this.hash).offset().top}, 200);
     });
 //-----listeners---
 
@@ -215,8 +220,8 @@ window.addEventListener('load', function() {
                 y++;
             }
         }
-        document.getElementById("div").appendChild(canvas);
-        startBtn.disabled = false; 
+        document.getElementById("div").insertBefore(canvas, document.getElementById("div").firstChild);
+        startBtn.disabled = false;
     }
     
     
