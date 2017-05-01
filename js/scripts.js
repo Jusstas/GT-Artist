@@ -1,60 +1,97 @@
 window.addEventListener('load', function() {
 
-//-----code--------
+//-----code---------------------
     var items = [];
-    var imageFile = {'ready':false};
     var scaned = false;
-
-    var canvas = document.createElement('canvas');
-    canvas.style.border = '1px solid #d3d3d3';
-    var ctx = canvas.getContext("2d");
+    var imageFile = {
+        'ready': false,
+        'image': new Image(),
+        'name': "",
+        'big': false
+    };
     
-    var canvas2 = document.createElement('canvas');
-    var ctx2 = canvas2.getContext('2d');
+    var options = {
+        'resize': false,
+        'keepRatio': false,
+        'rWidth': 100.0,
+        'rHeight': 100.0
+    };
+
+    var artCanvas = document.createElement('canvas');
+    var artCtx = artCanvas.getContext("2d");
+    
+    var imageCanvas = document.createElement('canvas');
+    var imageCtx = imageCanvas.getContext('2d');
+    
+    var spriteCanvas = document.createElement('canvas');
+    var spriteCtx = spriteCanvas.getContext('2d');
     
     var spriteIMG = new Image();
     spriteIMG.onload = function() {
-        canvas2.width = this.width;
-        canvas2.height = this.height;
-        ctx2.drawImage(this, 0, 0);
+        spriteCanvas.width = this.width;
+        spriteCanvas.height = this.height;
+        spriteCtx.drawImage(this, 0, 0);
     };
     spriteIMG.src = '../res/ItemSprites.png';
     
+    var changeEvent = document.createEvent("HTMLEvents");
+    changeEvent.initEvent('change', false, true);
+    
+    var inputEvent = document.createEvent("HTMLEvents");
+    inputEvent.initEvent('input', false, true);
+    
     var fileInput = document.getElementById("fileUpload");
     var fileLabel = fileInput.nextElementSibling;
-    
     var startBtn = document.getElementById("startBtn");
-//-----code--------
+    var oLink = document.getElementById("oLink");
+    var dLink = document.getElementById("dLink");
+    var bWidth = document.getElementById("bWidth");
+    var bw = bWidth.parentElement.nextElementSibling.firstChild;
+    var bHeight = document.getElementById("bHeight");
+    var bh = bHeight.parentElement.nextElementSibling.firstChild;
+    var resizeCheckbox = document.getElementById("resize");
+    var aspectRatio = document.getElementById("aspectRatio");
+    
+    pollyFill();
+//-----code---------------------
 
 
-//-----listeners---
+
+//-----listeners----------------
     fileInput.addEventListener('change', function()
     {
         var file = this.files[0];
         
-        if('name' in file)
+        if(file.name != '')
+        {
             fileLabel.innerHTML = file.name;
+            imageFile.name = file.name;
+        }
             
-        if (file.type.match('image.*'))
+        if (file.type.match('image/*'))
         {
-            if (file.size <= 8 * 1024)
+            if (file.size < 4 * 1024)
             {
-                imageFile.file = file;
-                imageFile.ready = true;
+                imageFile.big = false;
             }
-            else
-            {
-                setTimeout("confirm('Image is too big, resize?')", 350);
-                imageFile.ready = false;
-                this.value = null;
+            else {
+                imageFile.big = true;
+                if(!options.resize)
+                {
+                    if(confirm('Image is too big, resize?'))
+                    {
+                        resizeCheckbox.checked = true;
+                        resizeCheckbox.dispatchEvent(changeEvent);
+                    }
+                }
             }
+                loadImageFile(file);
         }
-        else
-        {
-            setTimeout("alert('Please select an image to proceed')", 350);
+        else {
             imageFile.ready = false;
-            this.value = null;
+            alert('This file type is not supported, please select *.png *.jpg *.bmp or *.gif file');
         }
+        this.value = null;
     });
 
 
@@ -62,28 +99,101 @@ window.addEventListener('load', function() {
     {
         if (imageFile.ready)
         {
-            this.disabled = true;
-            if (!scaned)
-                setTimeout(function() {getColors(items);},0);
-            setTimeout(function(){drawArt(imageFile.file);},0);
+            if(imageFile.big && !resizeCheckbox.checked)
+                alert('Please enable resize option to proceed');
+            else
+            {
+                startBtn.disabled = true;
+                fileInput.disabled = true;
+                
+                if (!scaned)
+                    setTimeout(function(){getColors(items);},0);
+                setTimeout(function(){resizeImage();},0);
+                setTimeout(function(){drawArt();},0);
+                setTimeout(function(){document.getElementById("canvasBox").appendChild(artCanvas);},0);
+                
+                setTimeout(function(){
+                    artCanvas.toBlob(function(blob) {
+                        oLink.href = URL.createObjectURL(blob);
+                        dLink.href = oLink.href;
+                        dLink.download = 'New_'+imageFile.name;
+                        oLink.style.display = 'inline-block';
+                        dLink.style.display = 'inline-block';
+                        startBtn.disabled = false;
+                        fileInput.disabled = false;
+                    }, 'image/jpeg', 0.25);
+                },0);
+            }
         }
+        else
+            alert('Please choose IMAGE and wait for it to load');
+    });
+    
+    
+    resizeCheckbox.addEventListener('change', function(){
+        if(this.checked)
+        {
+            document.getElementById('rTable').style.display = 'table';
+            options.resize = true;
+        }
+        else {
+            document.getElementById('rTable').style.display = 'none';
+            options.resize = false;
+        }
+    });
+    
+    aspectRatio.addEventListener('change', function(){
+        if(this.checked)
+        {
+            options.keepRatio = true;
+            bWidth.dispatchEvent(inputEvent);
+        }
+        else
+            options.keepRatio = false;
+    });
+    
+    bWidth.addEventListener('input', function(){
+        var value = 0;
+        if(options.keepRatio)
+        {
+            value = Math.round(imageFile.image.height / imageFile.image.width * this.value);
+            bHeight.value = value;
+            bh.innerHTML = value;
+            options.rHeight = value;
+        }
+        bw.innerHTML = this.value;
+        options.rWidth = this.value;
+    });
+    
+    bHeight.addEventListener('input', function(){
+        var value = 0;
+        if(options.keepRatio)
+        {
+            value = Math.round(imageFile.image.width / imageFile.image.height * this.value);
+            bWidth.value = value;
+            bw.innerHTML = value;
+            options.rWidth = value;
+        }
+        bh.innerHTML = this.value;
+        options.rHeight = this.value;
     });
     
     $('a[href*=\\#]').on('click', function(e){     
         e.preventDefault();
-        $('html,body').animate({scrollTop:$(this.hash).offset().top}, 200);
+        $('html,body').animate({scrollTop:$(this.hash).offset().top}, 300);
     });
-//-----listeners---
+//-----listeners----------------
 
 
-//-----functions---
+
+//-----functions----------------
     function getColors(items) {
         
         var sx = spriteIMG.width / 32;
         var sy = spriteIMG.height / 32;
         
         var id = sx * sy;
-
+        
         var x = 0;
         var y = 0;
         
@@ -92,7 +202,7 @@ window.addEventListener('load', function() {
         
         for (var i = 0; i < id; i++)
         {
-            data = ctx2.getImageData(x*32, y*32, 32, 32).data;
+            data = spriteCtx.getImageData(x*32, y*32, 32, 32).data;
             
             colorObj = averageColor(data);
             if (colorObj.pix > 0)
@@ -112,9 +222,8 @@ window.addEventListener('load', function() {
         scaned = true;
     }
     
-    
     function averageColor(data) {
-
+        
         var r = 0;
         var g = 0;
         var b = 0;
@@ -139,35 +248,40 @@ window.addEventListener('load', function() {
         return { color: [r, g, b], pix: pix };
     }
     
+//--------------------
     
-    function drawArt(file) {
-        
-        var imgData = {};
-        
-        var canvas3 = document.createElement('canvas');
-        var ctx3 = canvas3.getContext('2d');
-        
-        var image = new Image();
-        image.onload = function() {
-            
+    function loadImageFile(file) {
+
+        imageFile.image.onload = function() {
+            imageFile.ready = true;
+            bWidth.dispatchEvent(inputEvent);
             URL.revokeObjectURL(this.src);
-            
-            canvas3.width = this.width;
-            canvas3.height = this.height;
-            ctx3.drawImage(this, 0, 0, this.width, this.height);
-            
-            canvas.width = this.width*32;
-            canvas.height = this.height*32;
-            
-            imgData = ctx3.getImageData(0, 0, canvas3.width, canvas3.height);
-            startDrawing(imgData);
         };
-        image.src = URL.createObjectURL(file);
+        imageFile.image.src = URL.createObjectURL(file);
     }
     
-    
-    function startDrawing(imgData) {
+    function resizeImage() {
         
+        if (options.resize)
+            {
+                imageCanvas.width = options.rWidth;
+                imageCanvas.height = options.rHeight;
+            }
+            else {
+                imageCanvas.width = imageFile.image.width;
+                imageCanvas.height = imageFile.image.height;
+            }
+        imageCtx.drawImage(imageFile.image, 0, 0, imageCanvas.width, imageCanvas.height);
+            
+        artCanvas.width = imageCanvas.width*32;
+        artCanvas.height = imageCanvas.height*32;
+    }
+    
+//--------------------
+    
+    function drawArt() {
+        
+        var imgData = imageCtx.getImageData(0, 0, imageCanvas.width, imageCanvas.height);
         var data = imgData.data;
         
         var x = 0;
@@ -178,6 +292,8 @@ window.addEventListener('load', function() {
         var d = 0, minDif = 0;
         var pixColor = [];
         var lc1 = [], lc2 = [];
+        
+        artCtx.clearRect(0, 0, artCanvas.width, artCanvas.height);
         
         for (var i = 0, l = data.length; i < l; i += 4)
         {
@@ -210,7 +326,7 @@ window.addEventListener('load', function() {
                         iy = items[i2].y;
                     }
                 }
-                ctx.drawImage(canvas2, ix*32, iy*32, 32, 32, x*32, y*32, 32, 32);
+                artCtx.drawImage(spriteCanvas, ix*32, iy*32, 32, 32, x*32, y*32, 32, 32);
             }
             
             x++;
@@ -220,8 +336,6 @@ window.addEventListener('load', function() {
                 y++;
             }
         }
-        document.getElementById("div").insertBefore(canvas, document.getElementById("div").firstChild);
-        startBtn.disabled = false;
     }
     
     
@@ -237,7 +351,6 @@ window.addEventListener('load', function() {
         }
         return Math.sqrt(d);
     }
-    
     
     function labColorDif(c1, c2) {
         
@@ -293,6 +406,25 @@ window.addEventListener('load', function() {
         
         return [L, a, b];
     }
-//-----functions---
+    
+    function pollyFill()
+    {
+        if (!HTMLCanvasElement.prototype.toBlob) {
+            Object.defineProperty(HTMLCanvasElement.prototype, 'toBlob', {
+            value: function (callback, type, quality) {
+
+            var binStr = atob( this.toDataURL(type, quality).split(',')[1] ),
+                len = binStr.length,
+                arr = new Uint8Array(len);
+
+            for (var i = 0; i < len; i++ ) {
+            arr[i] = binStr.charCodeAt(i);
+            }
+
+            callback( new Blob( [arr], {type: type || 'image/png'} ) );}
+            });
+        }
+    }
+//-----functions----------------
     
 });
