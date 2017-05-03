@@ -160,9 +160,9 @@ hr {
 }
 
 #rTable span {
-	float: left;
-	width: 30px;
-	text-align: right;
+  float: left;
+  width: 30px;
+  text-align: right;
 }
 
 #bWidth, #bHeight {
