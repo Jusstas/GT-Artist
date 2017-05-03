@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head id='top'>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>GT-Artist</title>
@@ -10,7 +10,7 @@
     <link href="css/styles.css" rel="stylesheet">
     <script src="js/scripts.js"></script>
   </head>
-  <body>
+  <body id='top'>
       
     <ul id='barUl'>
       <li><a href="#top" class='LB'>Home</a></li>
@@ -35,32 +35,33 @@
         <button class='btn'>Download</button>
       </a>
       
-      <h1 id='options'>Options</h1><hr>
-        
+      <h1 id='options'>&nbsp; Options</h1><hr>
       <ul id='opt'>
         <li class='ulh'>
           <input id='resize' type='checkbox'>
           <label for='resize'> Resize</label>
         </li>
         <li>
-          <table id='rTable'>
-            <tr>
-              <td>Width :</td>
-              <td><input id='bWidth' type="range" min=10 max=200 value=100></td>
-              <td><span>100</span>&nbsp; blocks</td>
-            </tr>
-            <tr>
-              <td>Height :</td>
-              <td><input id='bHeight' type="range" min=10 max=200 value=100></td>
-              <td><span>100</span>&nbsp; blocks</td>
-            </tr>
-            <tr>
-              <td colspan=2>
-                <input id='aspectRatio' type='checkbox'>
-                <label for='aspectRatio'> Keep aspect ratio</label>
-              </td>
-            </tr>
-          </table>
+          <div id='rTable'>    
+            <table>
+              <tr>
+                <td>Width :</td>
+                <td><input id='bWidth' type="range" min=10 max=200 value=100></td>
+                <td><span>100</span>&nbsp; blocks</td>
+              </tr>
+              <tr>
+                <td>Height :</td>
+                <td><input id='bHeight' type="range" min=10 max=200 value=100></td>
+                <td><span>100</span>&nbsp; blocks</td>
+              </tr>
+              <tr>
+                <td colspan=3>
+                  <input id='aspectRatio' type='checkbox'>
+                  <label for='aspectRatio'> Keep aspect ratio</label>
+                </td>
+              </tr>
+            </table>
+          </div>
         </li>
         <li>
           <div id="tlkio" data-channel="GT-Artist"></div>
@@ -68,9 +69,29 @@
         </li>
       </ul>
       
-      <h1 id='about'>About</h1><hr>
+      <h1 id='about'>&nbsp; About</h1><hr>
+      <p align='center'>
+        GT-Artist is pixel art program that automaticaly makes pixel art from selected blocks of Growtopia by any kind of picture.<br>
+        <br>
+        All this project is for education and entertainment purposes only so we do not seeking any profit from it.<br>
+        Also, this is for helping Growtopia players to make pixel art in Growtopia game or even to look how any picture<br>
+        looks like if it would be made from Growtopia blocks.<br>
+        <br>
+        If you choosed a file and system still says that you need to choose it, that means your browser is not supported<br>
+        and we recomend you to use or dowload other browser such as Google Chrome or other.<br>
+        <br>
+        Note That GT-Artist is just a pixel art program and does not communicate with Growtopia in any way.<br>
+        <br>
+        You do not have Growtopia (the game) yet?<br> 
+        Open the Google Play, App Store or even your browser and search for 'growtopia' (Gameloft).<br>
+        Also, with any of your problems according to Growtopia (the game) contact support@growtopiagame.com.<br>
+        <br>
+        Credits: Seth Robinson (Developer of Growtopia)<br>
+        Mike Hommel (Designer of the textures of growtopia)<br>
+        *If you want to know more about growtopia, check out http://www.growtopiagame.com<br>
+      </p>
       
-      <br><br><br><br>
+      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     </div>
 
   </body>
