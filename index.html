@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no">
+    <link rel="icon" type="image/png" href="/favicon.png"/>
     <title>GT-Artist</title>
     
     <link href="https://fonts.googleapis.com/css?family=Raleway:500" rel="stylesheet">
@@ -13,27 +14,26 @@
   <body id='top'>
       
     <ul id='barUl'>
-      <li><a href="#top" class='LB'>Home</a></li>
-      <li><a href="#about" class='LB'>About</a></li>
-      <li><a href="#faq" class='LB'>FAQ</a></li>
-      <li><button id='startBtn' class='RB'>START</button></li>
-      <li><a href="#options" class='RB' id='optionsLink'>
-        <img src='res/ic_settings_black_48px.svg'></img></a>
-      </li>
-      <li><input id="fileUpload" type="file">
-        <label for="fileUpload" class='RB'>Choose a file</label>
-      </li>
+      <li><a class='LB' href="#top">Home</a></li>
+      <li><a class='LB' href="#about" >About</a></li>
+      <li><a class='LB' href="#faq">FAQ</a></li>
+      <li><button class='RB' id='startBtn'>START</button></li>
+      <li><a class='RB' href="#options" id='optionsLink'><img src='res/ic_settings_black_48px.svg'></img></a></li>
+      <li><input id="fileUpload" type="file"><label class='RB' for="fileUpload">Choose a file</label></li>
     </ul>
     
     <div id="core">
-        
-      <div id='canvasBox'></div>
-      <a id='oLink' target='_blank'>
-        <button class='btn'>Open image in new tab</button>
-      </a>
-      <a id='dLink'>
-        <button class='btn'>Download</button>
-      </a>
+      
+      <div  class='center'>
+        <div class='inlnbl maxwide'>
+          <div id='canvasBox' ></div>
+          <button id='genLinks' class='btn'>Generate image file</button>
+          <div id='links' class='left'>
+            <a id='oLink' target='_blank'><button class='btn'>Open image in new tab</button></a>
+            <a id='dLink'><button class='btn'>Download</button></a>
+          </div>
+        </div>
+      </div>
       
       <h1 id='options'>&nbsp; Options</h1><hr>
       <ul id='opt'>
@@ -46,12 +46,12 @@
             <table>
               <tr>
                 <td>Width :</td>
-                <td><input id='bWidth' type="range" min=10 max=200 value=100></td>
-                <td><span>100</span>&nbsp; blocks</td>
+                <td class='wide'><input id='bWidth' type="range" min=10 max=200 value=100></td>
+                <td><span>100</span>&nbsp; blocks &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
               </tr>
               <tr>
                 <td>Height :</td>
-                <td><input id='bHeight' type="range" min=10 max=200 value=100></td>
+                <td class='wide'><input id='bHeight' type="range" min=10 max=200 value=100></td>
                 <td><span>100</span>&nbsp; blocks</td>
               </tr>
               <tr>
@@ -70,7 +70,7 @@
       </ul>
       
       <h1 id='about'>&nbsp; About</h1><hr>
-      <p align='center'>
+      <p class='box' align='center'>
         GT-Artist is pixel art program that automaticaly makes pixel art from selected blocks of Growtopia by any kind of picture.<br>
         <br>
         All this project is for education and entertainment purposes only so we do not seeking any profit from it.<br>
@@ -91,7 +91,7 @@
         *If you want to know more about growtopia, check out http://www.growtopiagame.com<br>
       </p>
       
-      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+      <br><br><br><br><br><br><br><br><br><br>
     </div>
 
   </body>
