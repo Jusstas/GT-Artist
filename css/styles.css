@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  text-decoration: none;
   font-family: 'Raleway', sans-serif;
 }
 
@@ -11,17 +12,54 @@ body {
 
 hr {
   height: 6px;
+  margin-bottom: 30px;
   background: url(http://ibrahimjabbari.com/english/images/hr-11.png) repeat-x 0 0;
   border: none;
+  opacity: 0.8;
 }
 
 .btn {
   padding: 8px;
+  margin: 4px 2px;
   font-size: 16px;
   border: none;
   border-radius: 5px;
   background: white;
   box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.08);
+}
+
+.ulh {
+  padding: 10px;
+  font-size: 22px;
+  text-align: center;
+}
+
+.box {
+  width: 70%;
+  padding: 30px;
+  margin: auto;
+  background: white;
+  box-shadow: 0px 1px 8px 0px rgba(0,0,0,0.14);
+}
+
+.wide {
+  width: 100%;
+}
+
+.maxwide {
+  max-width: 100%;
+}
+
+.left {
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
+
+.inlnbl {
+  display: inline-block;
 }
 
 @keyframes rainbow {
@@ -37,28 +75,32 @@ hr {
 /*---AppBar---*/
 #barUl {
   position: fixed;
+  left: 0;
   top: 0;
   width: 100%;
   margin: 0;
   padding: 0;
   list-style-type: none;
   background: #2c3e50;
-  /*background: -webkit-linear-gradient(to left, #89253e, #3a6186);
-  background: linear-gradient(to left, #89253e, #3a6186);
-  background: -webkit-linear-gradient(to bottom, #243B55, #141E30);
-  background: linear-gradient(to bottom, #243B55, #141E30);
-  background: -webkit-linear-gradient(to right, #061161, #780206);
-  background: linear-gradient(to right, #061161, #780206);*/
-  background-size:2em 2em;background-position:0em 1em,1em 0,0em 1em,1em 0,0 0,0 0,0 0,0 0,0 0;background-image:linear-gradient(45deg,#000 8%,transparent 8%,transparent 92%,#000 92%),linear-gradient(-45deg,#000 8%,transparent 8%,transparent 92%,#000 92%),linear-gradient(-45deg,#000 8%,transparent 8%,transparent 92%,#000 92%),linear-gradient(45deg,#000 8%,transparent 8%,transparent 92%,#000 92%),linear-gradient(-45deg,transparent 17%,#000 17%,#000 21%,transparent 21%,transparent 79%,#000 79%,#000 83%,transparent 83%),linear-gradient(45deg,transparent 29%,#000 29%,#000 33%,transparent 33%,transparent 67%,#000 67%,#000 71%,transparent 71%),linear-gradient(-135deg,#202020 10%,#090909 33%,transparent 33%,transparent 67%,#161616 67%,#202020 90%),linear-gradient(135deg,transparent 21%,#161616 21%,#2d2d2d 32.6%,#161616 64.5%,#202020 70.3%,#090909 79%,transparent 79%),linear-gradient(-135deg,transparent 21%,#161616 21%,#202020 40%,#202020 60%,#090909 79%,transparent 79%);
+  background-size:2em 2em;
+  background-position:0em 1em,1em 0,0em 1em,1em 0,0 0,0 0,0 0,0 0,0 0;
+  background-image:linear-gradient(45deg,#000 8%,transparent 8%,transparent 92%,#000 92%),
+  linear-gradient(-45deg,#000 8%,transparent 8%,transparent 92%,#000 92%),
+  linear-gradient(-45deg,#000 8%,transparent 8%,transparent 92%,#000 92%),
+  linear-gradient(45deg,#000 8%,transparent 8%,transparent 92%,#000 92%),
+  linear-gradient(-45deg,transparent 17%,#000 17%,#000 21%,transparent 21%,transparent 79%,#000 79%,#000 83%,transparent 83%),
+  linear-gradient(45deg,transparent 29%,#000 29%,#000 33%,transparent 33%,transparent 67%,#000 67%,#000 71%,transparent 71%),
+  linear-gradient(-135deg,#202020 10%,#090909 33%,transparent 33%,transparent 67%,#161616 67%,#202020 90%),
+  linear-gradient(135deg,transparent 21%,#161616 21%,#2d2d2d 32.6%,#161616 64.5%,#202020 70.3%,#090909 79%,transparent 79%),
+  linear-gradient(-135deg,transparent 21%,#161616 21%,#202020 40%,#202020 60%,#090909 79%,transparent 79%);
   box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.16), 0px 3px 3px 0px rgba(0,0,0,0.20);
-  z-index: 2;
+  z-index: 5;
 }
 
 #barUl li * {
   height: 47px;
   padding: 14px 16px;
-  font-size: 16px;
-  text-decoration: none;
+  font-size: 16px;  
   color: white;
   background: rgba(0,0,0,0);
   border: none;
@@ -69,16 +111,17 @@ hr {
   cursor: none;
 }
 
+
 #barUl .LB {
   float: left;
   -webkit-transition: background 0.3s;
-  transition: background 0.3s;
+  transition: background 0.2s;
 }
 
 #barUl .RB {
   float: right;
   -webkit-transition: background 0.3s;
-  transition: background 0.3s;
+  transition: background 0.2s;
 }
 
 #barUl .LB:hover {
@@ -93,12 +136,12 @@ hr {
 
 #barUl .LB:active {
   background: #257bb5;
-  transition: background 0s;
+  transition: none;
 }
 
 #barUl .RB:active {
   background: #B03427;
-  transition: background 0s;
+  transition: none;
 }
 
 #barUl .RB:focus, #barUl .LB:focus {
@@ -116,7 +159,7 @@ hr {
 }
 
 #optionsLink {
-  display:block;
+  display: block;
   padding-top: 11px !important;
 }
 
@@ -135,8 +178,8 @@ hr {
   overflow: auto;
 }
 
-#dLink, #oLink {
-    display:none;
+#genLinks, #links, #rTable {
+    display: none;
 }
 
 #opt {
@@ -145,16 +188,11 @@ hr {
   list-style-type: none;
 }
 
-.ulh {
-  padding: 10px;
-  font-size: 22px;
-  text-align: center;
-}
-
 #rTable {
+  width: 70%;
   padding: 30px;
   margin: auto;
-  display: none;
+  white-space: nowrap;
   background: white;
   box-shadow: 0px 1px 8px 0px rgba(0,0,0,0.14);
 }
@@ -163,10 +201,6 @@ hr {
   float: left;
   width: 30px;
   text-align: right;
-}
-
-#bWidth, #bHeight {
-  width: 500px;
 }
 
 #tlkio {
@@ -179,6 +213,7 @@ hr {
   box-shadow: 0px 1px 8px 0px rgba(0,0,0,0.14);
   -webkit-transition: width 1s, height 1s;
   transition: width 1s, height 1s;
+  z-index: 4;
 }
 
 #tlkio:hover {
