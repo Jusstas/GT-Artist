@@ -423,3 +423,6 @@ window.addEventListener('load', function() {
 //-----functions----------------
     
 });
+
+
+navigator.serviceWorker && navigator.serviceWorker.register('sw.js');
