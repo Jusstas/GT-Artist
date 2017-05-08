@@ -1,5 +1,5 @@
-window.addEventListener('load', function() {
-
+window.addEventListener('load', function()
+{
 //-----code---------------------
     var items = [];
     var scaned = false;
@@ -16,10 +16,10 @@ window.addEventListener('load', function() {
         'rWidth': 100.0,
         'rHeight': 100.0
     };
-
+    
     var artCanvas = document.createElement('canvas');
     var artCtx = artCanvas.getContext("2d");
-    artCanvas.style.maxWidth = '200%'
+    artCanvas.style.maxWidth = '200%';
     
     var imageCanvas = document.createElement('canvas');
     var imageCtx = imageCanvas.getContext('2d');
@@ -28,7 +28,8 @@ window.addEventListener('load', function() {
     var spriteCtx = spriteCanvas.getContext('2d');
     
     var spriteIMG = new Image();
-    spriteIMG.onload = function() {
+    spriteIMG.onload = function()
+    {
         spriteCanvas.width = this.width;
         spriteCanvas.height = this.height;
         spriteCtx.drawImage(this, 0, 0);
@@ -44,9 +45,18 @@ window.addEventListener('load', function() {
     var fileInput = document.getElementById("fileUpload");
     var fileLabel = fileInput.nextElementSibling;
     var startBtn = document.getElementById("startBtn");
+    
     var genLinks = document.getElementById("genLinks");
     var oLink = document.getElementById("oLink");
     var dLink = document.getElementById("dLink");
+    
+    var fullscreenButton = document.getElementById("buto");
+    var fullscreenDiv = document.getElementById("canvasBox");
+    var fullscreenFunc = fullscreenDiv.requestFullscreen;
+    if (!fullscreenFunc)
+        ['mozRequestFullScreen','msRequestFullscreen','webkitRequestFullScreen'].forEach(function (req){
+            fullscreenFunc = fullscreenFunc || fullscreenDiv[req];});
+    
     var bWidth = document.getElementById("bWidth");
     var bw = bWidth.parentElement.nextElementSibling.firstChild;
     var bHeight = document.getElementById("bHeight");
@@ -64,7 +74,7 @@ window.addEventListener('load', function() {
     {
         var file = this.files[0];
         
-        if(file.name != '')
+        if (file.name != '')
         {
             fileLabel.innerHTML = file.name;
             imageFile.name = file.name;
@@ -76,11 +86,12 @@ window.addEventListener('load', function() {
             {
                 imageFile.big = false;
             }
-            else {
+            else
+            {
                 imageFile.big = true;
-                if(!options.resize)
+                if (!options.resize)
                 {
-                    if(confirm('Image is too big, resize?'))
+                    if (confirm('Image is too big, resize?'))
                     {
                         resizeCheckbox.checked = true;
                         resizeCheckbox.dispatchEvent(changeEvent);
@@ -89,7 +100,8 @@ window.addEventListener('load', function() {
             }
                 loadImageFile(file);
         }
-        else {
+        else
+        {
             imageFile.ready = false;
             alert('This file type is not supported, please select *.png *.jpg *.bmp or *.gif file');
         }
@@ -101,7 +113,7 @@ window.addEventListener('load', function() {
     {
         if (imageFile.ready)
         {
-            if(imageFile.big && !resizeCheckbox.checked)
+            if (imageFile.big && !resizeCheckbox.checked)
                 alert('Please enable resize option to proceed');
             else
             {
@@ -112,11 +124,13 @@ window.addEventListener('load', function() {
                     setTimeout(function(){getColors(items);},0);
                 setTimeout(function(){resizeImage();},0);
                 setTimeout(function(){drawArt();},0);
-                setTimeout(function(){
+                setTimeout(function()
+                {
                     document.getElementById("canvasBox").appendChild(artCanvas);
                     startBtn.disabled = false;
                     fileInput.disabled = false;
                     genLinks.style.display = 'block';
+                    fullscreenButton.style.display = 'block';
                 },0);
             }
         }
@@ -131,8 +145,10 @@ window.addEventListener('load', function() {
         $('#links').slideUp(300);
         this.innerHTML = 'Generating... ';
         this.disabled = true;
-        setTimeout(function(){
-            artCanvas.toBlob(function(blob) {
+        setTimeout(function()
+        {
+            artCanvas.toBlob(function(blob)
+            {
                 dLink.href = URL.createObjectURL(blob);
                 dLink.download = 'New_'+imageFile.name.replace(/\.[^/.]+$/, "")+'.jpg';
                 oLink.href = dLink.href;
@@ -140,24 +156,31 @@ window.addEventListener('load', function() {
                 genLinks.disabled = false;
                 $('#links').slideDown(300);
             }, 'image/jpeg', 0.25);
-        },0);
+        },100);
+    });
+    
+    fullscreenButton.addEventListener('click', function(){
+        fullscreenFunc.call(fullscreenDiv);
     });
     
     
-    resizeCheckbox.addEventListener('change', function(){
-        if(this.checked)
+    resizeCheckbox.addEventListener('change', function()
+    {
+        if (this.checked)
         {
             $('#rTable').slideDown(300);
             options.resize = true;
         }
-        else {
+        else
+        {
             $('#rTable').slideUp(300);
             options.resize = false;
         }
     });
     
-    aspectRatio.addEventListener('change', function(){
-        if(this.checked)
+    aspectRatio.addEventListener('change', function()
+    {
+        if (this.checked)
         {
             options.keepRatio = true;
             bWidth.dispatchEvent(inputEvent);
@@ -166,9 +189,10 @@ window.addEventListener('load', function() {
             options.keepRatio = false;
     });
     
-    bWidth.addEventListener('input', function(){
+    bWidth.addEventListener('input', function()
+    {
         var value = 0;
-        if(options.keepRatio)
+        if (options.keepRatio)
         {
             value = Math.round(imageFile.image.height / imageFile.image.width * this.value);
             bHeight.value = value;
@@ -179,9 +203,10 @@ window.addEventListener('load', function() {
         options.rWidth = this.value;
     });
     
-    bHeight.addEventListener('input', function(){
+    bHeight.addEventListener('input', function()
+    {
         var value = 0;
-        if(options.keepRatio)
+        if (options.keepRatio)
         {
             value = Math.round(imageFile.image.width / imageFile.image.height * this.value);
             bWidth.value = value;
@@ -192,7 +217,8 @@ window.addEventListener('load', function() {
         options.rHeight = this.value;
     });
     
-    $('a[href*=\\#]').on('click', function(e){     
+    $('a[href*=\\#]').on('click', function(e)
+    {     
         e.preventDefault();
         $('html,body').animate({scrollTop:$(this.hash).offset().top-55}, 300);
     });
@@ -201,8 +227,39 @@ window.addEventListener('load', function() {
 
 
 //-----functions----------------
-    function getColors(items) {
-        
+    function loadImageFile(file)
+    {
+        imageFile.image.onload = function()
+        {
+            imageFile.ready = true;
+            bWidth.dispatchEvent(inputEvent);
+            URL.revokeObjectURL(this.src);
+        };
+        imageFile.image.src = URL.createObjectURL(file);
+    }
+    
+    function resizeImage()
+    {
+        if (options.resize)
+            {
+                imageCanvas.width = options.rWidth;
+                imageCanvas.height = options.rHeight;
+            }
+            else
+            {
+                imageCanvas.width = imageFile.image.width;
+                imageCanvas.height = imageFile.image.height;
+            }
+        imageCtx.drawImage(imageFile.image, 0, 0, imageCanvas.width, imageCanvas.height);
+            
+        artCanvas.width = imageCanvas.width*32;
+        artCanvas.height = imageCanvas.height*32;
+    }
+
+//--------------------
+
+    function getColors(items)
+    {
         var sx = spriteIMG.width / 32;
         var sy = spriteIMG.height / 32;
         
@@ -236,8 +293,8 @@ window.addEventListener('load', function() {
         scaned = true;
     }
     
-    function averageColor(data) {
-        
+    function averageColor(data)
+    {
         var r = 0;
         var g = 0;
         var b = 0;
@@ -264,36 +321,8 @@ window.addEventListener('load', function() {
     
 //--------------------
     
-    function loadImageFile(file) {
-
-        imageFile.image.onload = function() {
-            imageFile.ready = true;
-            bWidth.dispatchEvent(inputEvent);
-            URL.revokeObjectURL(this.src);
-        };
-        imageFile.image.src = URL.createObjectURL(file);
-    }
-    
-    function resizeImage() {
-        
-        if (options.resize)
-            {
-                imageCanvas.width = options.rWidth;
-                imageCanvas.height = options.rHeight;
-            }
-            else {
-                imageCanvas.width = imageFile.image.width;
-                imageCanvas.height = imageFile.image.height;
-            }
-        imageCtx.drawImage(imageFile.image, 0, 0, imageCanvas.width, imageCanvas.height);
-            
-        artCanvas.width = imageCanvas.width*32;
-        artCanvas.height = imageCanvas.height*32;
-    }
-    
-//--------------------
-    
-    function drawArt() {
+    function drawArt()
+    {
         
         var imgData = imageCtx.getImageData(0, 0, imageCanvas.width, imageCanvas.height);
         var data = imgData.data;
@@ -310,7 +339,7 @@ window.addEventListener('load', function() {
         
         for (var i = 0, l = data.length; i < l; i += 4)
         {
-            if(data[i+3] > 0)
+            if (data[i+3] > 0)
             {
                 if (lc2[i] === undefined)
                     lc2[i] = rgb2lab([data[i], data[i+1], data[i+2]]);
@@ -346,9 +375,10 @@ window.addEventListener('load', function() {
         }
     }
     
+//--------------------
     
-    function labColorDif(c1, c2) {
-        
+    function labColorDif(c1, c2)
+    {
         var d = 0;
         
         for (var i = 0; i < 3; i++)
@@ -359,7 +389,8 @@ window.addEventListener('load', function() {
     }
     
     
-    function rgb2lab(c) {
+    function rgb2lab(c)
+    {
         
         //RGB to XYZ
         var vC = [], XYZ = [];
@@ -402,21 +433,23 @@ window.addEventListener('load', function() {
         return [L, a, b];
     }
     
+//--------------------
+    
     function pollyFill()
     {
-        if (!HTMLCanvasElement.prototype.toBlob) {
+        if (!HTMLCanvasElement.prototype.toBlob)
+        {
             Object.defineProperty(HTMLCanvasElement.prototype, 'toBlob', {
-            value: function (callback, type, quality) {
+            value: function (callback, type, quality)
+            {
+                var binStr = atob( this.toDataURL(type, quality).split(',')[1] );
+                var len = binStr.length;
+                var arr = new Uint8Array(len);
 
-            var binStr = atob( this.toDataURL(type, quality).split(',')[1] ),
-                len = binStr.length,
-                arr = new Uint8Array(len);
+                for (var i = 0; i < len; i++ )
+                    arr[i] = binStr.charCodeAt(i);
 
-            for (var i = 0; i < len; i++ ) {
-            arr[i] = binStr.charCodeAt(i);
-            }
-
-            callback( new Blob( [arr], {type: type || 'image/png'} ) );}
+                callback( new Blob( [arr], {type: type || 'image/png'} ) );}
             });
         }
     }

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
+    <title>GT-Artist</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <link rel="apple-touch-icon" sizes="180x180" href="/res/favicons/apple-touch-icon.png">
@@ -12,8 +13,7 @@
     <link rel="shortcut icon" href="/res/favicons/favicon.ico">
     <meta name="msapplication-config" content="/res/favicons/browserconfig.xml">
     <meta name="theme-color" content="#2c3e50">
-    <title>GT-Artist</title>
-    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway:500" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link href="css/styles.css" rel="stylesheet">
@@ -26,20 +26,21 @@
       <li><a class='LB' href="#about" >About</a></li>
       <li><a class='LB' href="#faq">FAQ</a></li>
       <li><button class='RB' id='startBtn'>START</button></li>
-      <li><a class='RB' href="#options" id='optionsLink'><img src='res/ic_settings_black_48px.svg'></img></a></li>
+      <li><a class='RB' href="#options"><i class="material-icons">settings</i></a></li>
       <li><input id="fileUpload" type="file"><label class='RB' for="fileUpload">Choose a file</label></li>
     </ul>
     
     <div id="core">
-      
+        
       <div  class='center'>
         <div class='inlnbl maxwide'>
           <div id='canvasBox' ></div>
-          <button id='genLinks' class='btn'>Generate image file</button>
-          <div id='links' class='left'>
-            <a id='oLink' target='_blank'><button class='btn'>Open image in new tab</button></a>
+          <button id='genLinks' class='btn dnon'>Generate Image File</button>
+          <div id='links' class='left dnon'>
+            <a id='oLink' target='_blank'><button class='btn'>Open Image In New Tab</button></a>
             <a id='dLink'><button class='btn'>Download</button></a>
           </div>
+          <button id='buto' class='btn left dnon'>Full Screen</button>
         </div>
       </div>
       
@@ -50,7 +51,7 @@
           <label for='resize'> Resize</label>
         </li>
         <li>
-          <div id='rTable'>    
+          <div id='rTable' class='dnon'>    
             <table>
               <tr>
                 <td>Width :</td>
