@@ -12,9 +12,9 @@ window.addEventListener('load', function()
     
     var options = {
         'resize': false,
-        'keepRatio': false,
-        'rWidth': 100.0,
-        'rHeight': 100.0
+        'keepRatio': true,
+        'rWidth': 100,
+        'rHeight': 100
     };
     
     var artCanvas = document.createElement('canvas');
@@ -34,7 +34,7 @@ window.addEventListener('load', function()
         spriteCanvas.height = this.height;
         spriteCtx.drawImage(this, 0, 0);
     };
-    spriteIMG.src = '../res/v8_items.png';
+    spriteIMG.src = '../res/v9_items.png';
     
     var changeEvent = document.createEvent("HTMLEvents");
     changeEvent.initEvent('change', false, true);
@@ -79,63 +79,33 @@ window.addEventListener('load', function()
             fileLabel.innerHTML = file.name;
             imageFile.name = file.name;
         }
-            
-        if (file.type.match('image/*'))
-        {
-            if (file.size < 6 * 1024)
-            {
-                imageFile.big = false;
-            }
-            else
-            {
-                imageFile.big = true;
-                if (!options.resize)
-                {
-                    if (confirm('Image is too big, resize?'))
-                    {
-                        resizeCheckbox.checked = true;
-                        resizeCheckbox.dispatchEvent(changeEvent);
-                    }
-                }
-            }
-                loadImageFile(file);
-        }
-        else
-        {
-            imageFile.ready = false;
-            alert('This file type is not supported, please select *.png *.jpg *.bmp or *.gif file');
-        }
+        
+        if (fileTypeCheck(file))
+            loadImageFile(file);
+        
         this.value = null;
     });
 
-
     startBtn.addEventListener('click', function()
     {
-        if (imageFile.ready)
+        if (imageCheck())
         {
-            if (imageFile.big && !resizeCheckbox.checked)
-                alert('Please enable resize option to proceed');
-            else
+            startBtn.disabled = true;
+            fileInput.disabled = true;
+            
+            if (!scaned)
+                setTimeout(function(){getColors(items);},0);
+            setTimeout(function(){resizeImage();},0);
+            setTimeout(function(){drawArt();},0);
+            setTimeout(function()
             {
-                startBtn.disabled = true;
-                fileInput.disabled = true;
-                
-                if (!scaned)
-                    setTimeout(function(){getColors(items);},0);
-                setTimeout(function(){resizeImage();},0);
-                setTimeout(function(){drawArt();},0);
-                setTimeout(function()
-                {
-                    document.getElementById("canvasBox").appendChild(artCanvas);
-                    startBtn.disabled = false;
-                    fileInput.disabled = false;
-                    genLinks.style.display = 'block';
-                    fullscreenButton.style.display = 'block';
-                },0);
-            }
+                document.getElementById("canvasBox").appendChild(artCanvas);
+                startBtn.disabled = false;
+                fileInput.disabled = false;
+                genLinks.style.display = 'block';
+                fullscreenButton.style.display = 'block';
+            },0);
         }
-        else
-            alert('Please choose IMAGE and wait for it to load');
     });
     
     
@@ -195,9 +165,12 @@ window.addEventListener('load', function()
         if (options.keepRatio)
         {
             value = Math.round(imageFile.image.height / imageFile.image.width * this.value);
-            bHeight.value = value;
-            bh.innerHTML = value;
-            options.rHeight = value;
+            if (!isNaN(value))
+            {
+                bHeight.value = value;
+                bh.innerHTML = value;
+                options.rHeight = value;
+            }
         }
         bw.innerHTML = this.value;
         options.rWidth = this.value;
@@ -209,9 +182,12 @@ window.addEventListener('load', function()
         if (options.keepRatio)
         {
             value = Math.round(imageFile.image.width / imageFile.image.height * this.value);
-            bWidth.value = value;
-            bw.innerHTML = value;
-            options.rWidth = value;
+            if (!isNaN(value))
+            {
+                bWidth.value = value;
+                bw.innerHTML = value;
+                options.rWidth = value;
+            }
         }
         bh.innerHTML = this.value;
         options.rHeight = this.value;
@@ -227,12 +203,67 @@ window.addEventListener('load', function()
 
 
 //-----functions----------------
+    function fileTypeCheck(file)
+    {
+        if (!file.type.match('image/*'))
+        {
+            imageFile.ready = false;
+            alert('Please select valid image format (*.png *.jpg *.bmp, *.gif, *.svg)');
+            return false;
+        }
+        return true;
+    }
+    
+    function fileSizeCheck(file, image)
+    {
+        bWidth.value = image.width;
+        bWidth.dispatchEvent(inputEvent);
+        if (!options.keepRatio)
+        {
+             bHeight.value = image.height;
+             bHeight.dispatchEvent(inputEvent);
+        }
+        
+        if (image.width * image.height > bWidth.max * bWidth.max)
+            imageFile.big = true;
+        else
+            imageFile.big = false;
+        
+        if (!options.resize && imageFile.big)
+        {
+            if (confirm('Image is too big, resize?'))
+            {
+                resizeCheckbox.checked = true;
+                resizeCheckbox.dispatchEvent(changeEvent);
+            }
+        }
+    }
+    
+    function imageCheck()
+    {
+        if (!imageFile.ready)
+        {
+            alert('Please choose IMAGE and wait for it to load');
+            return false;
+        }
+        
+        if (imageFile.big && !resizeCheckbox.checked)
+        {
+            alert('Please enable resize option to proceed');
+            return false;
+        }
+        
+        return true;
+    }
+
+//--------------------
+
     function loadImageFile(file)
     {
         imageFile.image.onload = function()
         {
+            fileSizeCheck(file, imageFile.image)
             imageFile.ready = true;
-            bWidth.dispatchEvent(inputEvent);
             URL.revokeObjectURL(this.src);
         };
         imageFile.image.src = URL.createObjectURL(file);
@@ -241,15 +272,15 @@ window.addEventListener('load', function()
     function resizeImage()
     {
         if (options.resize)
-            {
-                imageCanvas.width = options.rWidth;
-                imageCanvas.height = options.rHeight;
-            }
-            else
-            {
-                imageCanvas.width = imageFile.image.width;
-                imageCanvas.height = imageFile.image.height;
-            }
+        {
+            imageCanvas.width = options.rWidth;
+            imageCanvas.height = options.rHeight;
+        }
+        else
+        {
+            imageCanvas.width = imageFile.image.width;
+            imageCanvas.height = imageFile.image.height;
+        }
         imageCtx.drawImage(imageFile.image, 0, 0, imageCanvas.width, imageCanvas.height);
             
         artCanvas.width = imageCanvas.width*32;
