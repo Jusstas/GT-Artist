@@ -17,9 +17,10 @@ window.addEventListener('load', function()
         'rHeight': 100
     };
     
-    var artCanvas = document.createElement('canvas');
+    var pixelProcessing = new Worker('/js/PixelProcessing.js');
+    
+    var artCanvas = document.getElementById('artCanvas');
     var artCtx = artCanvas.getContext("2d");
-    artCanvas.style.maxWidth = '200%';
     
     var imageCanvas = document.createElement('canvas');
     var imageCtx = imageCanvas.getContext('2d');
@@ -34,7 +35,7 @@ window.addEventListener('load', function()
         spriteCanvas.height = this.height;
         spriteCtx.drawImage(this, 0, 0);
     };
-    spriteIMG.src = '../res/v9_items.png';
+    spriteIMG.src = '../res/v10_items.png';
     
     var changeEvent = document.createEvent("HTMLEvents");
     changeEvent.initEvent('change', false, true);
@@ -85,6 +86,7 @@ window.addEventListener('load', function()
         
         this.value = null;
     });
+    
 
     startBtn.addEventListener('click', function()
     {
@@ -92,20 +94,33 @@ window.addEventListener('load', function()
         {
             startBtn.disabled = true;
             fileInput.disabled = true;
+            document.getElementById("links").style.display = 'none';
+            genLinks.style.display = 'none';
+            fullscreenButton.style.display = 'none';
             
             if (!scaned)
-                setTimeout(function(){getColors(items);},0);
-            setTimeout(function(){resizeImage();},0);
-            setTimeout(function(){drawArt();},0);
-            setTimeout(function()
-            {
-                document.getElementById("canvasBox").appendChild(artCanvas);
-                startBtn.disabled = false;
-                fileInput.disabled = false;
-                genLinks.style.display = 'block';
-                fullscreenButton.style.display = 'block';
-            },0);
+                getColors(items);
+            resizeImage();
+            
+            $('html,body').animate({scrollTop:$('#art').offset().top+30}, 300);
+            $("#canvasBox").slideUp(500, function(){
+                pixelProcessing.postMessage(['draw', items, imageCtx.getImageData(0, 0, imageCanvas.width, imageCanvas.height)]);
+            });
         }
+    });
+    
+    
+    pixelProcessing.addEventListener('message', function(e)
+    {
+        for (var i = 0, l = e.data.length; i < l; i++)
+            artCtx.drawImage(spriteCanvas, e.data[i][0]*32, e.data[i][1]*32, 32, 32, e.data[i][2]*32, e.data[i][3]*32, 32, 32);
+        
+        document.getElementById("canvasPlaceHolder").style.display = 'none';
+        $("#canvasBox").slideDown(500);
+        genLinks.style.display = 'block';
+        fullscreenButton.style.display = 'block';
+        startBtn.disabled = false;
+        fileInput.disabled = false;
     });
     
     
@@ -126,7 +141,7 @@ window.addEventListener('load', function()
                 genLinks.disabled = false;
                 $('#links').slideDown(300);
             }, 'image/jpeg', 0.25);
-        },100);
+        },300);
     });
     
     fullscreenButton.addEventListener('click', function(){
@@ -155,8 +170,7 @@ window.addEventListener('load', function()
             options.keepRatio = true;
             bWidth.dispatchEvent(inputEvent);
         }
-        else
-            options.keepRatio = false;
+        else options.keepRatio = false;
     });
     
     bWidth.addEventListener('input', function()
@@ -193,10 +207,11 @@ window.addEventListener('load', function()
         options.rHeight = this.value;
     });
     
+    
     $('a[href*=\\#]').on('click', function(e)
     {     
         e.preventDefault();
-        $('html,body').animate({scrollTop:$(this.hash).offset().top-55}, 300);
+        $('html,body').animate({scrollTop:$(this.hash).offset().top-60}, 300);
     });
 //-----listeners----------------
 
@@ -262,7 +277,7 @@ window.addEventListener('load', function()
     {
         imageFile.image.onload = function()
         {
-            fileSizeCheck(file, imageFile.image)
+            fileSizeCheck(file, imageFile.image);
             imageFile.ready = true;
             URL.revokeObjectURL(this.src);
         };
@@ -348,120 +363,6 @@ window.addEventListener('load', function()
         b = Math.floor(b / pix);
 
         return { color: [r, g, b], pix: pix };
-    }
-    
-//--------------------
-    
-    function drawArt()
-    {
-        
-        var imgData = imageCtx.getImageData(0, 0, imageCanvas.width, imageCanvas.height);
-        var data = imgData.data;
-        
-        var x = 0;
-        var y = 0;
-        
-        var ix = 0;
-        var iy = 0;
-        var d = 0, minDif = 0;
-        var lc1 = [], lc2 = [];
-        
-        artCtx.clearRect(0, 0, artCanvas.width, artCanvas.height);
-        
-        for (var i = 0, l = data.length; i < l; i += 4)
-        {
-            if (data[i+3] > 0)
-            {
-                if (lc2[i] === undefined)
-                    lc2[i] = rgb2lab([data[i], data[i+1], data[i+2]]);
-                    
-                minDif = 900;
-            
-                for (var i2 = 0, l2 = items.length; i2 < l2; i2++)
-                {
-                    //if (items[i2].pix < 900)
-                        //continue;
-                
-                    if (lc1[i2] === undefined)
-                        lc1[i2] = rgb2lab(items[i2].color);
-
-                    d = labColorDif(lc1[i2], lc2[i]);
-                
-                    if (d < minDif)
-                    {
-                        minDif = d;
-                        ix = items[i2].x;
-                        iy = items[i2].y;
-                    }
-                }
-                artCtx.drawImage(spriteCanvas, ix*32, iy*32, 32, 32, x*32, y*32, 32, 32);
-            }
-            
-            x++;
-            if (x >= imgData.width)
-            {
-                x = 0;
-                y++;
-            }
-        }
-    }
-    
-//--------------------
-    
-    function labColorDif(c1, c2)
-    {
-        var d = 0;
-        
-        for (var i = 0; i < 3; i++)
-        {
-            d += Math.pow(c1[i] - c2[i], 2);
-        }
-        return Math.sqrt(d);
-    }
-    
-    
-    function rgb2lab(c)
-    {
-        
-        //RGB to XYZ
-        var vC = [], XYZ = [];
-        
-        for (var i = 0; i < 3; i++)
-        {
-            vC[i] = ( c[i] / 255.0 );
-
-            if (vC[i] > 0.04045)
-                vC[i] = Math.pow(((vC[i] + 0.055) / 1.055), 2.4);
-            else 
-                vC[i] = vC[i] / 12.92;
-
-            vC[i] = vC[i] * 100;
-        }
-        
-        XYZ[0] = vC[0] * 0.4124 + vC[1] * 0.3576 + vC[2] * 0.1805;
-        XYZ[1] = vC[0] * 0.2126 + vC[1] * 0.7152 + vC[2] * 0.0722;
-        XYZ[2] = vC[0] * 0.0193 + vC[1] * 0.1192 + vC[2] * 0.9505;
-        
-        //XYZ to CIA-L*ab
-        var L, a, b;
-        
-        XYZ[0] = XYZ[0] / 95.047;
-        XYZ[1] = XYZ[1] / 100.0;
-        XYZ[2] = XYZ[2] / 108.883;
-
-        for (var i = 0; i < 3; i++)
-        {
-            if (XYZ[i] > 0.008856)
-                XYZ[i] = Math.pow(XYZ[i], (1.0/3));
-            else
-                XYZ[i] = (7.787 * XYZ[i]) + (16.0 / 116);
-        }
-
-        L = (116 * XYZ[1]) - 16;
-        a = 500 * (XYZ[0] - XYZ[1]);
-        b = 200 * (XYZ[1] - XYZ[2]);
-        
-        return [L, a, b];
     }
     
 //--------------------
