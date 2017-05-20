@@ -8,35 +8,88 @@
   color: white; 
   background: #2c3e50;
 }
-
 ::selection {
   color: white; 
   background: #2c3e50;
 }
 
 body {
+  padding: 0;
   margin: 0;
+  color: #262626;
   background: rgba(0,0,0,0.02);
-  color: rgba(0,0,0,0.8);
+  background: #262626;
+  background-size:4em 4em;
+  background-position:0em 2em,2em 0,0em 2em,2em 0,0 0,0 0,0 0,0 0,0 0;
+  background-image:linear-gradient(45deg,#000 8%,transparent 8%,transparent 92%,#000 92%),
+    linear-gradient(-45deg,#000 8%,transparent 8%,transparent 92%,#000 92%),
+    linear-gradient(-45deg,#000 8%,transparent 8%,transparent 92%,#000 92%),
+    linear-gradient(45deg,#000 8%,transparent 8%,transparent 92%,#000 92%),
+    linear-gradient(-45deg,transparent 17%,#000 17%,#000 21%,transparent 21%,transparent 79%,#000 79%,#000 83%,transparent 83%),
+    linear-gradient(45deg,transparent 29%,#000 29%,#000 33%,transparent 33%,transparent 67%,#000 67%,#000 71%,transparent 71%),
+    linear-gradient(-135deg,#202020 10%,#090909 33%,transparent 33%,transparent 67%,#161616 67%,#202020 90%),
+    linear-gradient(135deg,transparent 21%,#161616 21%,#2d2d2d 32.6%,#161616 64.5%,#202020 70.3%,#090909 79%,transparent 79%),
+    linear-gradient(-135deg,transparent 21%,#161616 21%,#202020 40%,#202020 60%,#090909 79%,transparent 79%);
+  background-attachment: fixed;
+}
+
+header {
+  display: table-cell;
+  width: 100vw;
+  height: 100vh;
+  vertical-align: middle;
+  color: white;
+
+}
+#title {
+  font-size: 8vw;
+  text-shadow: 0 0 10px #000;
+}
+#downArrow {
+  position: absolute;
+  transform: translate(-50%, 0);
+  bottom: 0;
+  padding: 10px 0;
+  margin: 0;
+  color: white;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  cursor: default;
 }
 
 hr {
   height: 0px;
   margin-bottom: 30px;
-/*background: url(/res/hrline.png) repeat-x 0 0;*/
   border: 1px solid black;
-  opacity: 0.1;
+  opacity: 0.05;
+}
+
+h1 {
+  margin-top: 50px;
+  padding: 0 20px;
+  color: #2c3e50;
+  text-shadow: 0 0 1px rgba(0,0,0,0.3);
 }
 
 .btn {
   padding: 8px;
-  margin: 4px 2px;
+  margin: 4px 4px 4px 0;
   font-size: 16px;
+  color: white;
   border: none;
-  border-radius: 5px;
-  background: white;
-  box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.08);
+  background: #7f8c8d;
+  box-shadow: 0px 1px 8px 0px rgba(0,0,0,0.14);
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  -webkit-transition: background 0.2s;
+  transition: background 0.2s;
 }
+.btn:hover {background: #95a5a6;}
+.btn:focus {outline: none}
 
 .ulh {
   padding: 10px;
@@ -52,29 +105,12 @@ hr {
   box-shadow: 0px 1px 8px 0px rgba(0,0,0,0.14);
 }
 
-.wide {
-  width: 100%;
-}
-
-.maxwide {
-  max-width: 100%;
-}
-
-.left {
-  text-align: left;
-}
-
-.center {
-  text-align: center;
-}
-
-.inlnbl {
-  display: inline-block;
-}
-
-.dnon {
-    display: none;
-}
+.wide {width: 100%;}
+.maxwide {max-width: 100%;}
+.left {text-align: left;}
+.center {text-align: center;}
+.inlnbl {display: inline-block;}
+.dnon {display: none;}
 
 @keyframes rainbow {
   from {color: rgb(255, 0, 0);}
@@ -88,6 +124,7 @@ hr {
 
 /*---AppBar---*/
 #barUl {
+  opacity: 0;
   position: fixed;
   left: 0;
   top: 0;
@@ -95,18 +132,7 @@ hr {
   margin: 0;
   padding: 0;
   list-style-type: none;
-  background: #2c3e50;
-  background-size:2em 2em;
-  background-position:0em 1em,1em 0,0em 1em,1em 0,0 0,0 0,0 0,0 0,0 0;
-  background-image:linear-gradient(45deg,#000 8%,transparent 8%,transparent 92%,#000 92%),
-  linear-gradient(-45deg,#000 8%,transparent 8%,transparent 92%,#000 92%),
-  linear-gradient(-45deg,#000 8%,transparent 8%,transparent 92%,#000 92%),
-  linear-gradient(45deg,#000 8%,transparent 8%,transparent 92%,#000 92%),
-  linear-gradient(-45deg,transparent 17%,#000 17%,#000 21%,transparent 21%,transparent 79%,#000 79%,#000 83%,transparent 83%),
-  linear-gradient(45deg,transparent 29%,#000 29%,#000 33%,transparent 33%,transparent 67%,#000 67%,#000 71%,transparent 71%),
-  linear-gradient(-135deg,#202020 10%,#090909 33%,transparent 33%,transparent 67%,#161616 67%,#202020 90%),
-  linear-gradient(135deg,transparent 21%,#161616 21%,#2d2d2d 32.6%,#161616 64.5%,#202020 70.3%,#090909 79%,transparent 79%),
-  linear-gradient(-135deg,transparent 21%,#161616 21%,#202020 40%,#202020 60%,#090909 79%,transparent 79%);
+  background: #262626;
   box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.16), 0px 3px 3px 0px rgba(0,0,0,0.20);
   z-index: 5;
 }
@@ -122,20 +148,20 @@ hr {
   -moz-user-select:none;
   -ms-user-select:none;
   user-select:none;
-  cursor: none;
+  cursor: default;
 }
 
 
 #barUl .LB {
   float: left;
-  -webkit-transition: background 0.3s;
-  transition: background 0.2s;
+  -webkit-transition: background 0.25s;
+  transition: background 0.25s;
 }
 
 #barUl .RB {
   float: right;
-  -webkit-transition: background 0.3s;
-  transition: background 0.2s;
+  -webkit-transition: background 0.25s;
+  transition: background 0.25s;
 }
 
 #barUl .LB:hover {
@@ -174,30 +200,36 @@ hr {
 /*---AppBar---*/
 
 
-#core {
-  margin: 60px 8px 0;
+#content {
+  padding: 80px 8px;
+  background: #f0f0f0;
+  box-shadow: 0px 0px 10px 5px #000;
+}
+
+#canvasContent {
+  max-width: 90%;
 }
 
 #canvasBox {
+  max-height: 85vh;
   font-size: 0;
   overflow: auto;
 }
-
-#canvasBox:-moz-full-screen > * {
-  width: 100%;
-}
-#canvasBox:-ms-fullscreen > * {
-  width: 100%;
-}
-#canvasBox:-webkit-full-screen > * {
-  width: 100%;
-}
-#canvasBox:fullscreen > * {
-  width: 100%;
-}
+#canvasBox:-moz-full-screen {max-height:100vh;max-width:100vw;}
+#canvasBox:-ms-fullscreen {max-height:100vh;max-width:100vw;}
+#canvasBox:-webkit-full-screen {max-height:100vh;max-width:100vw;}
+#canvasBox:fullscreen {max-height:100vh;max-width:100vw;}
+#canvasBox:-moz-full-screen canvas {width:100%;}
+#canvasBox:-ms-fullscreen canvas {width:100%;}
+#canvasBox:-webkit-full-screen canvas {width:100%;}
+#canvasBox:fullscreen canvas {width:100%;}
 
 #artCanvas {
-  max-width: 200%;
+  max-width: 150%;
+}
+
+#genLinks {
+  width: 170px;
 }
 
 #opt {
@@ -207,12 +239,7 @@ hr {
 }
 
 #rTable {
-  width: 70%;
-  padding: 30px;
-  margin: auto;
   white-space: nowrap;
-  background: white;
-  box-shadow: 0px 1px 8px 0px rgba(0,0,0,0.14);
 }
 
 #rTable span {
@@ -225,16 +252,17 @@ hr {
   position: fixed;
   bottom: 10px;
   right: 18px;
-  background: white;
   width: 100px;
   height: 100px;
+  opacity: 0;
+  background: white;
   box-shadow: 0px 1px 8px 0px rgba(0,0,0,0.14);
-  -webkit-transition: all 0.5s;
-  transition: all 0.5s;
+  -webkit-transition: width 0.5s, height 0.5s;
+  transition: width 0.5s, height 0.5s;
   z-index: 4;
 }
 
 #tlkio:hover {
-    width: 299px;
-    height: 299px;
+  width: 299px;
+  height: 299px;
 }
