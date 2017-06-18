@@ -45,6 +45,7 @@ window.addEventListener('load', function()
     var fileLabel = fileInput.nextElementSibling;
     var startBtn = document.getElementById("startBtn");
     
+    var canvasContent = document.getElementById("canvasContent");
     var canvasBox = document.getElementById("canvasBox");
     var genLinks = document.getElementById("genLinks");
     var oLink = document.getElementById("oLink");
@@ -62,12 +63,15 @@ window.addEventListener('load', function()
     var resizeCheckbox = document.getElementById("resize");
     var aspectRatio = document.getElementById("aspectRatio");
     
-    $('#top').velocity("scroll", 1000);
-    document.getElementsByTagName("header")[0].style.height = window.innerHeight + 'px';
-    $('header').children().velocity("fadeIn", {duration: 2000});
+    var tlkio = document.getElementById("tlkio");
+    var spp = 0;
     
     var pixelProcessing = new Worker('/js/PixelProcessing.js');
     pollyFill();
+    
+    document.getElementsByTagName("header")[0].style.height = window.innerHeight + 'px';
+    $('#title').velocity("fadeIn", {duration: 3000, ease: 'linear'});
+    $('#top').velocity("scroll", 1000);
 //-----code---------------------
 
 
@@ -96,19 +100,19 @@ window.addEventListener('load', function()
         {
             startBtn.disabled = true;
             fileInput.disabled = true;
+            canvasContent.style.display = 'none';
             document.getElementById("links").style.display = 'none';
-            document.getElementById("canvasButtons").style.display = 'none';
             document.getElementById("canvasPlaceHolder").innerHTML = 'Loading...';
             document.getElementById("canvasPlaceHolder").style.display = 'block';
+            $("#art").velocity("scroll", {duration: 500, offset: 5, easing: 'ease'});
             
             if (!scaned)
                 getColors(items);
             resizeImage();
             
-            $("#art").velocity("scroll", {duration: 500, offset: 30, easing: 'ease'});
-            $("#canvasBox").velocity("slideUp", {duration: 500, complete: function(){
+            setTimeout(function(){
                 pixelProcessing.postMessage(['draw', items, imageCtx.getImageData(0, 0, imageCanvas.width, imageCanvas.height)]);
-            }});
+            }, 500);
         }
     });
     
@@ -119,9 +123,7 @@ window.addEventListener('load', function()
             artCtx.drawImage(spriteCanvas, e.data[i][0]*32, e.data[i][1]*32, 32, 32, e.data[i][2]*32, e.data[i][3]*32, 32, 32);
         
         document.getElementById("canvasPlaceHolder").style.display = 'none';
-        artCanvas.style.display = 'block';
-        $("#canvasBox").velocity("slideDown", 500);
-        document.getElementById("canvasButtons").style.display = 'inline-block';
+        canvasContent.style.display = 'inline-block';
         startBtn.disabled = false;
         fileInput.disabled = false;
     });
@@ -156,12 +158,12 @@ window.addEventListener('load', function()
     {
         if (this.checked)
         {
-            $('#rTable').velocity("slideDown", 300);
+            document.getElementById("rTable").style.display = 'block';
             options.resize = true;
         }
         else
         {
-            $('#rTable').velocity("slideUp", 300);
+            document.getElementById("rTable").style.display = 'none';
             options.resize = false;
         }
     });
@@ -211,22 +213,32 @@ window.addEventListener('load', function()
     });
     
     
-    window.addEventListener('scroll', debounce(removeHeader, 200));
+    window.addEventListener('scroll', function()
+    {
+        var c = window.pageYOffset;
+        var l = 100;
+        
+        if(l < Math.abs(c - spp))
+        {
+            $("#barUl").toggleClass("remove", l > c);
+            $("#tlkio").toggleClass("remove", l > c);
+            spp = c;
+        }
+    });
     
-    $('div#container').mouseenter(function(event) { //need more test
+    $(canvasBox).mouseenter(function(event) {
         $('body').css('overflow', 'hidden');}).mouseleave(function(event) {$('body').css('overflow', '');
     });
     
     $(window).on('resize orientationchange', function() {
         $('header').innerHeight($(this).innerHeight());
-        //document.getElementsByTagName("header")[0].style.height = window.innerHeight + 'px';
     });
     
     $('a[href*="#"]').on('click', function(e)
     {
         e.preventDefault();
         var target = $(this).attr('href');
-        $(target).velocity('scroll', {duration: 500, offset: -68, easing: 'ease'});
+        $(target).velocity('scroll', {duration: 500, offset: -34, easing: 'ease'});
     });
 //-----listeners----------------
 
@@ -382,26 +394,6 @@ window.addEventListener('load', function()
     
 //--------------------
 
-    function removeHeader()
-    {
-        if(window.pageYOffset >= 100)
-        {
-            document.getElementById("tlkio").style.display = 'block';
-            $("#tlkio").velocity({opacity: 1}, {duration: 500});
-            document.getElementById("barUl").style.display = 'block';
-            $("#barUl").velocity({opacity: 1}, {duration: 500});
-        }
-        
-        if(window.pageYOffset < 100)
-        {
-            $("#tlkio").velocity({opacity: 0}, {duration: 500, complete: function(){
-                document.getElementById("tlkio").style.display = 'none';
-            }});
-            $("#barUl").velocity({opacity: 0}, {duration: 500, complete: function(){
-                document.getElementById("barUl").style.display = 'none';
-            }});
-        }
-    }
     
     function pollyFill()
     {
@@ -421,21 +413,6 @@ window.addEventListener('load', function()
             });
         }
     }
-    
-    function debounce(func, wait, immediate) {
-        var timeout;
-        return function() {
-            var context = this, args = arguments;
-            var later = function() {
-                timeout = null;
-                if (!immediate) func.apply(context, args);
-            };
-            var callNow = immediate && !timeout;
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-            if (callNow) func.apply(context, args);
-        };
-    };
 //-----functions----------------
     
 });
