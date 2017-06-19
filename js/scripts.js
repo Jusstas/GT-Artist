@@ -63,7 +63,6 @@ window.addEventListener('load', function()
     var resizeCheckbox = document.getElementById("resize");
     var aspectRatio = document.getElementById("aspectRatio");
     
-    var tlkio = document.getElementById("tlkio");
     var spp = 0;
     
     var pixelProcessing = new Worker('/js/PixelProcessing.js');
@@ -394,7 +393,6 @@ window.addEventListener('load', function()
     
 //--------------------
 
-    
     function pollyFill()
     {
         if (!HTMLCanvasElement.prototype.toBlob)

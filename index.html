@@ -21,7 +21,6 @@
     <link href="css/styles.css" rel="stylesheet">
   </head>
   <body>
-      
     <ul id='barUl' class='remove'>
       <li><a class='LB' href="#top">Home</a></li>
       <li><a class='LB' href="#about" >About</a></li>
@@ -39,113 +38,120 @@
     </header>
     
     <div id='content'>
-    <hr class='r'>
-    <div class='bg2'>
-    <h1 id='art'>Generated Art</h1>
-    <p id='canvasPlaceHolder' class='box center'>Nothing here yet</p>
-    <div class='center'>
-      <div id='canvasContent' class='left dnon'>
-        <div id='canvasBox'><canvas id='artCanvas'></canvas></div>
-          <div id='canvasButtons'>
-            <button id='genLinks' class='btn'>Generate Image File</button>
-            <div id='links' class='dnon'>
-              <a id='oLink' target='_blank'><button class='btn'>Open Image In New Tab</button></a>
-              <a id='dLink'><button class='btn'>Download</button></a>
+      <hr class='r'>
+      
+      <div class='bg2'>
+        <h1 id='art'>Generated Art</h1>
+        <p id='canvasPlaceHolder' class='box center'>Nothing here yet</p>
+        <div class='center'>
+          <div id='canvasContent' class='left dnon'>
+            <div id='canvasBox'>
+              <canvas id='artCanvas'></canvas>
+            </div>
+            <div id='canvasButtons'>
+              <button id='genLinks' class='btn'>Generate Image File</button>
+              <div id='links' class='dnon'>
+                <a id='oLink' target='_blank'><button class='btn'>Open Image In New Tab</button></a>
+                <a id='dLink'><button class='btn'>Download</button></a>
+              </div>
             </div>
           </div>
         </div>
+        <hr>
       </div>
-    <hr></div>
-    
-    <div class='bg1'>
-    <h1 id='options'>Options</h1>
-    <div class='box'>
-    <ul id='opt'>
-      <li class='ulh'>
-        <input id='resize' type='checkbox'>
-        <label for='resize'>Resize?</label>
-      </li>
-      <li>
-        <div id='rTable' class='dnon'>    
-          <table>
-            <tr>
-              <td>Width :</td>
-              <td class='wide'><input class='wide' id='bWidth' type="range" min=10 max=200 value=100></td>
-              <td><span>100</span>&nbsp; blocks &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-            </tr>
-            <tr>
-              <td>Height :</td>
-              <td class='wide'><input class='wide' id='bHeight' type="range" min=10 max=200 value=100></td>
-              <td><span>100</span>&nbsp; blocks</td>
-            </tr>
-            <tr>
-              <td colspan=3>
-                <input id='aspectRatio' type='checkbox' checked>
-                <label for='aspectRatio'> Keep aspect ratio</label>
-              </td>
-            </tr>
-          </table>
+      
+      <div class='bg1'>
+        <h1 id='options'>Options</h1>
+        <div class='box'>
+          <ul id='opt'>
+            <li class='ulh'>
+              <input id='resize' type='checkbox'>
+              <label for='resize'>Resize?</label>
+            </li>
+            <li>
+              <div id='rTable' class='dnon'>
+                <table>
+                  <tr>
+                    <td>Width :</td>
+                    <td class='wide'><input class='wide' id='bWidth' type="range" min=10 max=200 value=100></td>
+                    <td><span>100</span>&nbsp; blocks &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td>Height :</td>
+                    <td class='wide'><input class='wide' id='bHeight' type="range" min=10 max=200 value=100></td>
+                    <td><span>100</span>&nbsp; blocks</td>
+                  </tr>
+                  <tr>
+                    <td colspan=3>
+                      <input id='aspectRatio' type='checkbox' checked>
+                      <label for='aspectRatio'> Keep aspect ratio</label>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </li>
+            <li class='ulh'>
+              <input id='paint' type='checkbox'>
+              <label for='paint'>Use painted blocks?</label>
+            </li>
+            <li class='ulh'>
+              <input id='glue' type='checkbox'>
+              <label for='glue'>Use block glue?</label>
+            </li>
+          </ul>
         </div>
-      </li>
-      <li class='ulh'>
-        <input id='paint' type='checkbox'>
-        <label for='paint'>Use painted blocks?</label>
-      </li>
-      <li class='ulh'>
-        <input id='glue' type='checkbox'>
-        <label for='glue'>Use block glue?</label>
-      </li>
-    </ul>
-    </div>
-    <hr></div>
-    
-    <div class='bg2'>
-    <h1 id='about'>About</h1>
-    <div class='box center'>
-      <p>
-        GT-Artist is pixel art program that automaticaly makes pixel art from selected blocks of Growtopia by any kind of picture.<br>
-      </p>
-      <p>
-        All this project is for education and entertainment purposes only so we do not seeking any profit from it.<br>
-        Also, this is for helping Growtopia players to make pixel art in Growtopia game or even to look how any picture<br>
-        looks like if it would be made from Growtopia blocks.<br>
-      </p>
-      <p>
-        If you choosed a file and system still says that you need to choose it, that means your browser is not supported<br>
-        and we recomend you to use or dowload other browser such as Google Chrome or other.<br>
-      </p>
-      <p>
-        Note That GT-Artist is just a pixel art program and does not communicate with Growtopia in any way.<br>
-      </p>
-      <p>
-        You do not have Growtopia (the game) yet?<br> 
-        Open the Google Play, App Store or even your browser and search for 'growtopia' (Gameloft).<br>
-        Also, with any of your problems according to Growtopia (the game) contact support@growtopiagame.com.<br>
-      </p>
-      <p>
-        Credits: Seth Robinson (Developer of Growtopia)<br>
-        Mike Hommel (Designer of the textures of growtopia)<br>
-        *If you want to know more about growtopia, check out http://www.growtopiagame.com<br>
-      </p>
-    </div>
-    <hr></div>
-    
-    <div class='bg1'>
-    <h1 id='faq'>FAQ</h1>
-    <div class='box center'>
-      <h3>How do I download image?</h3>
-      <p>
-        On some PC browsers you can just simply right click on canvas and press download. 
-        If this is not avaialble then press 'Generate image file' button and wait little bit, then press 'Download'. 
-        also you can press 'Open in new window' button, right click (long press on mobile) image and choose download option.
-       </p>
-      <h3>How to view generated art in fullscreen?</h3>
-      <p>
-          You should double click (double tap) on art box to achieve this effect...
-       </p>
-    </div>
-    <hr>
-    </div>
+        <hr>
+      </div>
+      
+      <div class='bg2'>
+        <h1 id='about'>About</h1>
+        <div class='box center'>
+          <p>
+            GT-Artist is pixel art program that automaticaly makes pixel art from selected blocks of Growtopia by any kind of picture.<br>
+          </p>
+          <p>
+            All this project is for education and entertainment purposes only so we do not seeking any profit from it.<br>
+            Also, this is for helping Growtopia players to make pixel art in Growtopia game or even to look how any picture<br>
+            looks like if it would be made from Growtopia blocks.<br>
+          </p>
+          <p>
+            If you choosed a file and system still says that you need to choose it, that means your browser is not supported<br>
+            and we recomend you to use or dowload other browser such as Google Chrome or other.<br>
+          </p>
+          <p>
+            Note That GT-Artist is just a pixel art program and does not communicate with Growtopia in any way.<br>
+          </p>
+          <p>
+            You do not have Growtopia (the game) yet?<br> 
+            Open the Google Play, App Store or even your browser and search for 'growtopia' (Gameloft).<br>
+            Also, with any of your problems according to Growtopia (the game) contact support@growtopiagame.com.<br>
+          </p>
+          <p>
+            Credits: Seth Robinson (Developer of Growtopia)<br>
+            Mike Hommel (Designer of the textures of growtopia)<br>
+            *If you want to know more about growtopia, check out http://www.growtopiagame.com<br>
+          </p>
+        </div>
+        <hr>
+      </div>
+      
+      <div class='bg1'>
+        <h1 id='faq'>FAQ</h1>
+        <div class='box center'>
+          <h3>How do I download image?</h3>
+          <p>
+            On some PC browsers you can just simply right click on canvas and press download. 
+            If this is not avaialble then press 'Generate image file' button and wait little bit, then press 'Download'. 
+            also you can press 'Open in new window' button, right click (long press on mobile) image and choose download option.
+          </p>
+          <h3>How to view generated art in fullscreen?</h3>
+          <p>
+            You should double click (double tap) on art box to achieve this effect...
+          </p>
+        </div>
+        <hr>
+      </div>
+      
     </div>
     
     <script src="http://tlk.io/embed.js" type="text/javascript" async></script>
