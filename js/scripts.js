@@ -225,10 +225,6 @@ window.addEventListener('load', function()
         }
     });
     
-    $(canvasBox).mouseenter(function(event) {
-        $('body').css('overflow', 'hidden');}).mouseleave(function(event) {$('body').css('overflow', '');
-    });
-    
     $(window).on('resize orientationchange', function() {
         $('header').innerHeight($(this).innerHeight());
     });
