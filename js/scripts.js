@@ -65,7 +65,7 @@ window.addEventListener('load', function()
     
     var spp = 0;
     
-    var pixelProcessing = new Worker('/js/PixelProcessing.js');
+    var pixelProcessing = new Worker('js/PixelProcessing.js');
     pollyFill();
     
     document.getElementsByTagName("header")[0].style.height = window.innerHeight + 'px';
@@ -409,6 +409,7 @@ window.addEventListener('load', function()
     }
 //-----functions----------------
     
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
 });
-
-navigator.serviceWorker && navigator.serviceWorker.register('sw.js');

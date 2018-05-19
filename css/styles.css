@@ -189,7 +189,7 @@ h3 {
 #tlkio {
   position: fixed;
   bottom: -259px;
-  right: -64px;
+  right: 18px;  
   width: 299px;
   height: 299px;
   background: white;
@@ -200,7 +200,6 @@ h3 {
 }
 
 #tlkio:hover {
-  right: 18px;
   bottom: 10px;
 }
 
