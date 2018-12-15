@@ -7,12 +7,12 @@ looks like if it would be made from Growtopia blocks.
 This project is unfinished and can be unstable.
 Also feel free to open new issues and give some feedback.
 
-----------------------------------------------------------------------------------------------------------
+#
 
 Credits:
 This project contains and uses sprite sheet from Growtopia (the game) owned by Ubisoft Entertainment.
 <http://www.growtopiagame.com>
 
-----------------------------------------------------------------------------------------------------------
+#
 
 HTML5, CSS, JavaScript.
