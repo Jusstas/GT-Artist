@@ -156,12 +156,12 @@ h3 {
 
 #barUl .LB:hover {
   background: rgba(41, 128, 185, 0.6);
-  animation: rainbow  1s infinite linear;
+  /* animation: rainbow  1s infinite linear; */
 }
 
 #barUl .RB:hover {
   background: rgba(192, 57, 43, 0.6);
-  animation: rainbow 1s infinite linear;
+  /* animation: rainbow 1s infinite linear; */
 }
 
 #barUl .LB:active {
@@ -200,7 +200,7 @@ h3 {
 }
 
 #tlkio:hover {
-  bottom: 10px;
+  bottom: 0px;
 }
 
 #tlkio.remove {

@@ -33,7 +33,7 @@ window.addEventListener('load', function()
         spriteCanvas.height = this.height;
         spriteCtx.drawImage(this, 0, 0);
     };
-    spriteIMG.src = '../res/v10_items.png';
+    spriteIMG.src = 'res/v10_items.png';
     
     var changeEvent = document.createEvent("HTMLEvents");
     changeEvent.initEvent('change', false, true);
